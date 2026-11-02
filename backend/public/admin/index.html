@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FalaComigo · Painel Administrativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===================== LOGIN ===================== -->
+  <div id="login-screen" class="screen screen-login">
+    <div class="login-aside">
+      <div class="login-aside-content">
+        <div class="brand-mark">
+          <span class="brand-dot"></span>
+          FalaComigo
+        </div>
+        <h2>Gerencie sua operação de socorro veicular em um só lugar.</h2>
+        <p>Aprove profissionais, valide documentos e acompanhe corridas em tempo real.</p>
+        <ul class="login-highlights">
+          <li><span class="ic ic-check"></span> Aprovação de profissionais</li>
+          <li><span class="ic ic-check"></span> Validação de documentos</li>
+          <li><span class="ic ic-check"></span> Monitoramento de corridas</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="login-main">
+      <form id="login-form" class="login-card" autocomplete="off">
+        <div class="login-card-head">
+          <div class="brand-mark brand-mark-mobile">
+            <span class="brand-dot"></span>
+            FalaComigo
+          </div>
+          <h1>Entrar</h1>
+          <p class="subtitle">Acesse o painel administrativo</p>
+        </div>
+
+        <label for="login-email">E-mail</label>
+        <div class="input-wrap">
+          <span class="ic ic-mail"></span>
+          <input type="email" id="login-email" placeholder="voce@falacomigo.com" required autocomplete="username" />
+        </div>
+
+        <label for="login-password">Senha</label>
+        <div class="input-wrap">
+          <span class="ic ic-lock"></span>
+          <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password" />
+        </div>
+
+        <button type="submit" class="btn-primary btn-block" id="login-submit">
+          <span class="btn-label">Entrar</span>
+          <span class="spinner" hidden></span>
+        </button>
+        <p id="login-error" class="error"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================== APP ===================== -->
+  <div id="app-screen" class="screen screen-app" style="display:none">
+
+    <button id="sidebar-backdrop" class="sidebar-backdrop" aria-label="Fechar menu"></button>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-dot"></span>
+        <span>FalaComigo</span>
+        <span class="badge">Admin</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="dashboard">
+          <span class="ic ic-grid"></span> Dashboard
+        </button>
+        <button class="nav-item" data-tab="pending">
+          <span class="ic ic-user-check"></span> Profissionais
+          <span class="nav-count" id="nav-count-pending" hidden>0</span>
+        </button>
+        <button class="nav-item" data-tab="docs">
+          <span class="ic ic-doc"></span> Documentos
+          <span class="nav-count" id="nav-count-docs" hidden>0</span>
+        </button>
+        <button class="nav-item" data-tab="rides">
+          <span class="ic ic-route"></span> Corridas
+        </button>
+        <button class="nav-item" data-tab="coupons">
+          <span class="ic ic-tag"></span> Cupons
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-chip">
+          <span class="avatar" id="admin-avatar">A</span>
+          <div class="admin-chip-text">
+            <strong id="admin-name">Administrador</strong>
+            <span id="admin-email">—</span>
+          </div>
+        </div>
+        <button id="logout-btn" class="link-btn">
+          <span class="ic ic-logout"></span> Sair
+        </button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button id="menu-toggle" class="icon-btn only-mobile" aria-label="Abrir menu">
+          <span class="ic ic-menu"></span>
+        </button>
+        <h1 id="page-title">Dashboard</h1>
+        <div class="topbar-actions">
+          <button id="refresh-btn" class="icon-btn" title="Atualizar">
+            <span class="ic ic-refresh"></span>
+          </button>
+        </div>
+      </header>
+
+      <div class="content">
+
+        <!-- DASHBOARD -->
+        <section id="tab-dashboard" class="tab-content">
+          <div class="stats-grid">
+            <div class="stat-card accent-green">
+              <span class="stat-icon"><span class="ic ic-user-check"></span></span>
+              <div>
+                <span class="stat-value" id="stat-pending-profs">–</span>
+                <span class="stat-label">Profissionais pendentes</span>
+              </div>
+            </div>
+            <div class="stat-card accent-amber">
+              <span class="stat-icon"><span class="ic ic-doc"></span></span>
+              <div>
+                <span class="stat-value" id="stat-pending-docs">–</span>
+                <span class="stat-label">Documentos pendentes</span>
+              </div>
+            </div>
+            <div class="stat-card accent-blue">
+              <span class="stat-icon"><span class="ic ic-route"></span></span>
+              <div>
+                <span class="stat-value" id="stat-rides-total">–</span>
+                <span class="stat-label">Corridas recentes carregadas</span>
+              </div>
+            </div>
+            <div class="stat-card accent-violet">
+              <span class="stat-icon"><span class="ic ic-check-circle"></span></span>
+              <div>
+                <span class="stat-value" id="stat-rides-completed">–</span>
+                <span class="stat-label">Concluídas (na amostra)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panels-row">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Aprovações em aberto</h2>
+                <button class="link-btn small" data-goto="pending">Ver todas →</button>
+              </div>
+              <div id="dashboard-pending-preview" class="list list-compact"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Últimas corridas</h2>
+                <button class="link-btn small" data-goto="rides">Ver todas →</button>
+              </div>
+              <div id="dashboard-rides-preview" class="list list-compact"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROFISSIONAIS PENDENTES -->
+        <section id="tab-pending" class="tab-content" style="display:none">
+          <div class="toolbar">
+            <div class="search-wrap">
+              <span class="ic ic-search"></span>
+              <input type="text" id="search-pending" placeholder="Buscar por nome, especialidade ou e-mail…" />
+            </div>
+          </div>
+          <div id="pending-list" class="list"></div>
+        </section>
+
+        <!-- DOCUMENTOS -->
+        <section id="tab-docs" class="tab-content" style="display:none">
+          <div class="toolbar">
+            <div class="search-wrap">
+              <span class="ic ic-search"></span>
+              <input type="text" id="search-docs" placeholder="Buscar por profissional ou tipo de documento…" />
+            </div>
+            <div class="segmented" id="docs-filter">
+              <button class="segmented-btn active" data-filter="pending">Pendentes</button>
+              <button class="segmented-btn" data-filter="approved">Aprovados</button>
+              <button class="segmented-btn" data-filter="rejected">Rejeitados</button>
+              <button class="segmented-btn" data-filter="all">Todos</button>
+            </div>
+          </div>
+          <div id="docs-grid" class="doc-cards"></div>
+        </section>
+
+        <!-- CORRIDAS -->
+        <section id="tab-rides" class="tab-content" style="display:none">
+          <div class="toolbar">
+            <div class="search-wrap">
+              <span class="ic ic-search"></span>
+              <input type="text" id="search-rides" placeholder="Buscar por cliente, profissional ou status…" />
+            </div>
+          </div>
+          <div class="table-wrap">
+            <div id="rides-list" class="list"></div>
+          </div>
+        </section>
+
+        <!-- CUPONS -->
+        <section id="tab-coupons" class="tab-content" style="display:none">
+          <div class="panel" style="margin-bottom:20px">
+            <div class="panel-head">
+              <h2>Novo cupom</h2>
+            </div>
+            <form id="coupon-form" class="coupon-form">
+              <div class="input-wrap">
+                <input type="text" id="coupon-code" placeholder="Código (ex: BEMVINDO10)" required style="text-transform:uppercase" />
+              </div>
+              <div class="input-wrap">
+                <input type="text" id="coupon-description" placeholder="Descrição (opcional)" />
+              </div>
+              <div class="segmented" id="coupon-type">
+                <button type="button" class="segmented-btn active" data-type="percentage">% Percentual</button>
+                <button type="button" class="segmented-btn" data-type="fixed">R$ Fixo</button>
+              </div>
+              <div class="input-wrap">
+                <input type="number" id="coupon-value" placeholder="Valor do desconto" min="0" step="0.01" required />
+              </div>
+              <div class="input-wrap">
+                <input type="number" id="coupon-min-value" placeholder="Valor mínimo da corrida (opcional)" min="0" step="0.01" />
+              </div>
+              <div class="input-wrap">
+                <input type="number" id="coupon-max-uses" placeholder="Limite total de usos (opcional)" min="1" step="1" />
+              </div>
+              <div class="input-wrap">
+                <input type="number" id="coupon-max-per-client" placeholder="Limite por cliente" min="1" step="1" value="1" />
+              </div>
+              <div class="input-wrap">
+                <input type="date" id="coupon-valid-until" />
+              </div>
+              <button type="submit" class="btn-primary">Criar cupom</button>
+            </form>
+          </div>
+
+          <div id="coupons-list" class="list"></div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de imagem -->
+  <div id="image-modal" class="modal" style="display:none">
+    <div class="modal-backdrop"></div>
+    <div class="modal-inner">
+      <img id="modal-image" src="" alt="Documento" />
+      <button class="modal-close" id="modal-close" aria-label="Fechar">&times;</button>
+    </div>
+  </div>
+
+  <!-- Modal de confirmação (substitui confirm()/prompt()) -->
+  <div id="confirm-modal" class="modal" style="display:none">
+    <div class="modal-backdrop"></div>
+    <div class="confirm-card">
+      <h3 id="confirm-title">Confirmar ação</h3>
+      <p id="confirm-message"></p>
+      <div id="confirm-input-wrap" class="input-wrap" hidden>
+        <input type="text" id="confirm-input" placeholder="Motivo (opcional)" />
+      </div>
+      <div class="confirm-actions">
+        <button id="confirm-cancel" class="btn-ghost">Cancelar</button>
+        <button id="confirm-ok" class="btn-primary">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toasts -->
+  <div id="toast-stack" class="toast-stack"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
